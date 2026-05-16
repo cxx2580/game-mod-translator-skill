@@ -23,17 +23,17 @@ cp -r skills/game-mod-translator ~/.claude/skills/
 ## Quick Start
 
 ```
-你: 帮我把这个模组汉化成中文
-    模组文件: C:\...\SpawnManager.dll
-    游戏目录: C:\...\REPO\
+You: Translate this mod to Chinese for me
+     Mod file: C:\...\SpawnManager.dll
+     Game dir: C:\...\REPO\
 
 Claude Code:
-  1. 提取 DLL 中的 80+ 个 UI 字符串
-  2. 发现游戏已安装 XUnity.AutoTranslator
-  3. 检查翻译目录，确认缺失的翻译
-  4. 生成翻译文件 → UI_Mod.txt
-  5. 确认中文字体已配置 ✓
-  6. 完成！重启游戏即可。
+  1. Extracts 80+ UI strings from the DLL
+  2. Discovers XUnity.AutoTranslator already installed
+  3. Checks translation directory, identifies missing entries
+  4. Generates translation file → UI_Mod.txt
+  5. Confirms CJK font is configured ✓
+  6. Done — restart the game.
 ```
 
 ## Supported Games
@@ -56,7 +56,7 @@ All UI strings (English)
     ↓ scan game directory
 Translation framework found? (AutoTranslator / native / config)
     ↓
-Generate translation file (English=中文)
+Generate translation file (English=TargetLang)
     ↓
 Font check (CJK support)
     ↓
