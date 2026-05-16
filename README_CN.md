@@ -15,7 +15,7 @@
 
 ```bash
 # 克隆到 Claude Code skills 目录
-git clone https://github.com/xinshao/game-mod-translator.git
+git clone https://github.com/cxx2580/game-mod-translator.git
 
 # 或直接复制技能文件夹
 cp -r skills/game-mod-translator ~/.claude/skills/

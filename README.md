@@ -14,7 +14,7 @@ A [Claude Code](https://claude.ai/code) skill for translating game mod UI/text i
 
 ```bash
 # Clone into your Claude Code skills directory
-git clone https://github.com/xinshao/game-mod-translator.git
+git clone https://github.com/cxx2580/game-mod-translator.git
 
 # Or copy the skill folder directly
 cp -r skills/game-mod-translator ~/.claude/skills/

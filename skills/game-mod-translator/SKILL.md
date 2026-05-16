@@ -10,7 +10,7 @@ description: >
   to "translate mod", "localize game mod", "汉化模组", "翻译mod", or needs
   to convert mod UI text from one language to another.
 license: MIT
-homepage: https://github.com/xinshao/game-mod-translator
+homepage: https://github.com/cxx2580/game-mod-translator
 compat:
   - claude-code
   - claude-ai
