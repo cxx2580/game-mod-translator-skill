@@ -1,5 +1,5 @@
 ---
-name: game-mod-translator
+name: game-mod-translator-skill
 description: >
   Unity game Chinese translation using XUnity.AutoTranslator + CustomTranslate.
   Use when user wants to translate any Unity game to Chinese, create translation
@@ -14,7 +14,7 @@ description: >
 > Deploy XUnity.AutoTranslator + CustomTranslate engine to any Unity game.
 > Add Chinese translation files. Zero online API needed.
 
-**Toolkit**: `C:\Users\xinshao\Desktop\game-mod-translator`
+**Toolkit**: `C:\Users\xinshao\Desktop\game-mod-translator-skill`
 **Engine**: XUnity.AutoTranslator 5.6.1 + CustomTranslate (offline local translation)
 
 ---
@@ -202,7 +202,7 @@ High=高
 ## Toolkit Directory
 
 ```
-C:\Users\xinshao\Desktop\game-mod-translator/
+C:\Users\xinshao\Desktop\game-mod-translator-skill/
 ├── engine/                          # Core DLLs, ready to deploy
 │   ├── plugins/XUnity.AutoTranslator/
 │   │   ├── Translators/CustomTranslate.dll

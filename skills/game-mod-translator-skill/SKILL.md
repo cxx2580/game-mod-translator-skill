@@ -1,5 +1,5 @@
 ---
-name: game-mod-translator
+name: game-mod-translator-skill
 version: 1.0.0
 description: >
   Translate game mod UI/localization files into any target language without
@@ -10,7 +10,7 @@ description: >
   to "translate mod", "localize game mod", "汉化模组", "翻译mod", or needs
   to convert mod UI text from one language to another.
 license: MIT
-homepage: https://github.com/cxx2580/game-mod-translator
+homepage: https://github.com/cxx2580/game-mod-translator-skill
 compat:
   - claude-code
   - claude-ai

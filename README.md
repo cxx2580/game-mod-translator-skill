@@ -14,10 +14,10 @@ A [Claude Code](https://claude.ai/code) skill for translating game mod UI/text i
 
 ```bash
 # Clone into your Claude Code skills directory
-git clone https://github.com/cxx2580/game-mod-translator.git
+git clone https://github.com/cxx2580/game-mod-translator-skill.git
 
 # Or copy the skill folder directly
-cp -r skills/game-mod-translator ~/.claude/skills/
+cp -r skills/game-mod-translator-skill ~/.claude/skills/
 ```
 
 ## Quick Start
@@ -69,11 +69,11 @@ translation framework to inject translated text at runtime.
 ## File Structure
 
 ```
-game-mod-translator/
+game-mod-translator-skill/
 ├── README.md                    # This file
 ├── README_CN.md                 # Chinese version
 ├── skills/
-│   └── game-mod-translator/
+│   └── game-mod-translator-skill/
 │       ├── SKILL.md             # Main skill workflow
 │       ├── manifest.json        # Skill metadata
 │       ├── references/

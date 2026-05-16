@@ -15,10 +15,10 @@
 
 ```bash
 # 克隆到 Claude Code skills 目录
-git clone https://github.com/cxx2580/game-mod-translator.git
+git clone https://github.com/cxx2580/game-mod-translator-skill.git
 
 # 或直接复制技能文件夹
-cp -r skills/game-mod-translator ~/.claude/skills/
+cp -r skills/game-mod-translator-skill ~/.claude/skills/
 ```
 
 ## 使用示例
@@ -65,10 +65,10 @@ Claude Code:
 ## 目录结构
 
 ```
-game-mod-translator/
+game-mod-translator-skill/
 ├── README.md / README_CN.md
 ├── skills/
-│   └── game-mod-translator/
+│   └── game-mod-translator-skill/
 │       ├── SKILL.md              # 主工作流
 │       ├── manifest.json         # 技能元数据
 │       ├── references/           # 渐进式参考文档
