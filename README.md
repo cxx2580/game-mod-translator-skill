@@ -1,95 +1,92 @@
 # Game Mod Translator
 
-A [Claude Code](https://claude.ai/code) skill for translating game mod UI/text into any language — without decompiling DLLs, without modifying binaries, zero crash risk.
+Universal multi-engine game localization toolkit + Claude Code Skill. **No binary modification, zero crash risk.**
 
-## What it does
+## Supported Engines
 
-- Extracts user-facing strings from compiled `.dll` / `.exe` mod files
-- Discovers existing translation infrastructure (XUnity.AutoTranslator, BepInEx, game-native)
-- Generates translation files in the correct format
-- Checks font support for CJK (Chinese/Japanese/Korean) characters
-- Works with Unity, Unreal Engine, RPG Maker, Minecraft, and more
+| Engine | Method | Difficulty | Examples |
+|--------|--------|:----------:|----------|
+| **Unity** | BepInEx + XUnity.AutoTranslator + txt | Easy | R.E.P.O., Lethal Company, Valheim |
+| **Ren'Py** | `tl/{lang}/*.rpy` translation files | Easy | Visual novels |
+| **RPG Maker MV/MZ** | Direct `www/data/*.json` editing | Easy | Indie RPGs |
+| **RPG Maker VX/Ace** | Translator++ / RGSS script patches | Medium | Older RPG Maker games |
+| **Godot** | `.po` / `.csv` translation editing | Easy | Cassette Beasts, Brotato |
+| **Source (Valve)** | `resource/closecaption_*.txt` | Medium | Portal, L4D, TF2 |
+| **Electron/Web** | Unpack asar → add locale → repack | Easy | Web-based games |
+| **Unreal Engine** | Locres extract/translate/repack | Hard | Satisfactory, Ark |
+| **GameMaker** | UndertaleModTool text extraction | Medium | Undertale, Hotline Miami |
+| **Unknown** | Text resource scan / OCR fallback | — | Any game |
 
 ## Installation
 
 ```bash
-# Clone into your Claude Code skills directory
-git clone https://github.com/cxx2580/game-mod-translator-skill.git
-
-# Or copy the skill folder directly
-cp -r skills/game-mod-translator-skill ~/.claude/skills/
+git clone https://github.com/cxx2580/game-mod-translator.git ~/.claude/skills/game-mod-translator/
 ```
 
-## Quick Start
+## Usage
 
 ```
-You: Translate this mod to Chinese for me
-     Mod file: C:\...\SpawnManager.dll
-     Game dir: C:\...\REPO\
+You: Translate this mod to Chinese
+     Mod: C:\...\SharedUpgradesPlus.dll
+     Game: C:\...\REPO\
 
-Claude Code:
-  1. Extracts 80+ UI strings from the DLL
-  2. Discovers XUnity.AutoTranslator already installed
-  3. Checks translation directory, identifies missing entries
-  4. Generates translation file → UI_Mod.txt
-  5. Confirms CJK font is configured ✓
-  6. Done — restart the game.
+Claude:
+  1. Detect: Unity + BepInEx ✓
+  2. Extract UI strings from DLL ✓
+  3. AutoTranslator installed ✓
+  4. Generate Translation/zh_cn/SharedUpgradesPlus.txt (75 entries) ✓
+  5. Done! Restart game to apply.
 ```
 
-## Supported Games
-
-Any game with mod support, including:
-
-- **Unity + BepInEx**: R.E.P.O., Lethal Company, Content Warning, Valheim, etc.
-- **Unreal Engine**: Satisfactory, Ark, Conan Exiles, etc.
-- **RPG Maker**: Various indie games
-- **Minecraft**: Java Edition mods
-- **Stardew Valley**: SMAPI mods
-- **Skyrim/Fallout**: Creation Engine mods
-
-## How it works
-
 ```
-Mod DLL (compiled)
-    ↓ extract_strings.py
-All UI strings (English)
-    ↓ scan game directory
-Translation framework found? (AutoTranslator / native / config)
-    ↓
-Generate translation file (English=TargetLang)
-    ↓
-Font check (CJK support)
-    ↓
-Done — restart game
+You: Translate this RPG Maker game
+     Game: D:\Games\MyRPG\
+
+Claude:
+  1. Detect: RPG Maker MV ✓
+  2. Found www/data/ JSON files ✓
+  3. Translate Maps, Items, Skills, System terms ✓
+  4. Copy CJK font to fonts/ ✓
+  5. Done!
 ```
 
-**Key principle**: Never decompile or modify DLLs. Always use the game's existing
-translation framework to inject translated text at runtime.
-
-## File Structure
+## Structure
 
 ```
-game-mod-translator-skill/
-├── README.md                    # This file
-├── README_CN.md                 # Chinese version
-├── skills/
-│   └── game-mod-translator-skill/
-│       ├── SKILL.md             # Main skill workflow
-│       ├── manifest.json        # Skill metadata
-│       ├── references/
-│       │   ├── frameworks.md    # Translation framework guide
-│       │   ├── dll-analysis.md  # Binary string extraction
-│       │   ├── font-solutions.md # CJK font guide
-│       │   └── troubleshooting.md
-│       └── scripts/
-│           └── extract_strings.py
+game-mod-translator/
+├── engine/plugins/XUnity.AutoTranslator/  # Unity runtime engine DLLs
+├── engine/core/XUnity.Common.dll
+├── config/AutoTranslatorConfig.ini         # Config template
+├── translations/zh_cn/_README.txt          # Translation format guide
+├── scripts/extract_strings.py              # DLL string extractor
+├── references/                             # Reference docs
+│   ├── frameworks.md                       # Translation framework detection
+│   ├── dll-analysis.md                     # Binary string extraction
+│   ├── font-solutions.md                   # CJK font solutions
+│   └── troubleshooting.md                  # Common issues
+├── setup.ps1 / setup.sh                    # Unity deployment scripts
+├── README.md / README_CN.md
+└── SKILL.md                                # Skill definition
 ```
 
-## Requirements
+## How It Works
 
-- Python 3.8+ (for `extract_strings.py`)
-- Claude Code or compatible AI coding agent
-- Node.js / npm (if using with Claude Code CLI)
+```
+Unity:     Harmony Hook UI Render → Intercept English → Lookup .txt Dict → Replace
+Other:     Read/Edit text resource files directly (JSON/XML/PO/RPY)
+```
+
+**Rules:**
+- Never decompile DLLs to modify strings
+- Never patch binary files
+- Prefer existing game translation infrastructure
+- Pure text translation: `Source=Translation`
+
+## Dependencies
+
+- Python 3.8+ (`extract_strings.py`)
+- BepInEx 5.x (Unity only, user pre-installs)
+- Claude Code or compatible AI assistant
 
 ## License
 

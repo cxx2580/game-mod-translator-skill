@@ -12,6 +12,9 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Claude Code (local only, not for distribution)
+.claude/
+
 # Test outputs
 *.txt.test
 *.tmp

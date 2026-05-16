@@ -1,89 +1,101 @@
-# Game Mod Translator · 游戏模组翻译技能
+# Game Mod Translator · 游戏翻译工具包
 
-一个 [Claude Code](https://claude.ai/code) 技能，用于将游戏模组 UI/文本翻译成任意语言。
-**不反编译 DLL，不修改二进制文件，零崩溃风险。**
+通用多引擎游戏汉化工具包 + Claude Code Skill。**不改二进制，零崩溃风险。**
 
-## 它能做什么
+## 支持引擎
 
-- 从编译后的 `.dll` / `.exe` 模组文件中提取用户可见字符串
-- 发现游戏已有的翻译基础设施（XUnity.AutoTranslator、BepInEx、游戏原生）
-- 按正确格式生成翻译文件
-- 检查 CJK（中日韩）字体支持
-- 支持 Unity、Unreal、RPG Maker、Minecraft 等多种游戏引擎
+| 引擎 | 翻译方式 | 难度 | 代表游戏 |
+|------|----------|:----:|----------|
+| **Unity** | BepInEx + XUnity.AutoTranslator + txt | 低 | R.E.P.O., Lethal Company, Valheim |
+| **Ren'Py** | `tl/chinese/*.rpy` 翻译文件 | 低 | 视觉小说类 |
+| **RPG Maker MV/MZ** | 直接编辑 `www/data/*.json` | 低 | 各类独立 RPG |
+| **RPG Maker VX/Ace** | Translator++ / RGSS 脚本补丁 | 中 | 老式 RPG Maker 游戏 |
+| **Godot** | 编辑 `.po` / `.csv` 翻译文件 | 低 | Cassette Beasts, Brotato |
+| **Source (Valve)** | `resource/closecaption_*.txt` | 中 | Portal, L4D, TF2 |
+| **Electron/Web** | 解包 asar → 加语言包 → 重打包 | 低 | 各类网页游戏 |
+| **Unreal Engine** | Locres 提取/翻译/重打包 | 高 | Satisfactory, Ark |
+| **GameMaker** | UndertaleModTool 文本提取 | 中 | Undertale, Hotline Miami |
+| **未知引擎** | 文本资源扫描 / OCR 兜底方案 | — | 任意游戏 |
 
 ## 安装
 
 ```bash
 # 克隆到 Claude Code skills 目录
-git clone https://github.com/cxx2580/game-mod-translator-skill.git
+git clone https://github.com/cxx2580/game-mod-translator.git ~/.claude/skills/game-mod-translator/
 
-# 或直接复制技能文件夹
-cp -r skills/game-mod-translator-skill ~/.claude/skills/
+# 或复制到技能目录
+cp -r . ~/.claude/skills/game-mod-translator/
+
+# 拷贝引擎 DLL（仅 Unity 需要）
+# 已包含在 engine/ 目录中，skill 激活后自动部署
 ```
 
 ## 使用示例
 
 ```
 你: 帮我把这个模组汉化成中文
-    模组文件: C:\...\SpawnManager.dll
+    模组文件: C:\...\SharedUpgradesPlus.dll
     游戏目录: C:\...\REPO\
 
-Claude Code:
-  1. 从 DLL 提取 80+ 个 UI 字符串 ✓
-  2. 发现游戏已安装 XUnity.AutoTranslator ✓
-  3. 检查翻译目录 → Spawn Manager 缺少翻译 ✗
-  4. 生成翻译文件 → UI_Mod.txt（724B → 5KB）✓
-  5. 确认中文字体已配置 ✓
-  6. 完成！重启游戏即可看到中文界面。
+Claude:
+  1. 检测引擎: Unity + BepInEx ✓
+  2. 从 DLL 提取 UI 字符串 ✓
+  3. AutoTranslator 已安装 ✓
+  4. 生成 Translation/zh_cn/SharedUpgradesPlus.txt ✓
+  5. 75 条翻译条目，UTF-8 编码 ✓
+  6. 完成！重启游戏生效。
 ```
 
-## 支持的游戏/引擎
-
-| 引擎/平台 | 翻译方式 | 代表游戏 |
-|----------|---------|---------|
-| Unity + BepInEx | XUnity.AutoTranslator | R.E.P.O.、Lethal Company、Content Warning |
-| Unity + BepInEx | BepInEx 配置翻译 | Valheim |
-| Unreal Engine | .locres / .po | Satisfactory、Ark |
-| RPG Maker | JSON 语言文件 | 各类独立游戏 |
-| Minecraft Java | 资源包 / Resource Pack | 各种模组 |
-| Stardew Valley | SMAPI + i18n | 各种 SMAPI 模组 |
-| Skyrim/Fallout | ESP/Strings 翻译 | 各种 Creation Engine 模组 |
-
-## 核心原则
-
 ```
-编译好的 DLL → 不修改（崩溃风险）
-运行时翻译框架 → 拦截文本 → 查表替换 → 安全稳定
-```
+你: 这个 Ren'Py 游戏能汉化吗？
+    游戏目录: D:\Games\Doki Doki Literature Club
 
-**铁律**：
-- ❌ 绝不反编译 DLL 改字符串
-- ❌ 绝不直接修改二进制文件
-- ✅ 优先发现游戏已安装的翻译基础设施
-- ✅ 翻译文件纯文本格式 `原文=译文`
+Claude:
+  1. 检测引擎: Ren'Py ✓
+  2. 发现 game/tl/ 目录（已有翻译基础设施）✓
+  3. 提取 game/script.rpy 文本 ✓
+  4. 创建 game/tl/chinese/ 翻译文件 ✓
+  5. 完成！
+```
 
 ## 目录结构
 
 ```
-game-mod-translator-skill/
+game-mod-translator/
+├── engine/                               # Unity 运行时翻译引擎
+│   ├── plugins/XUnity.AutoTranslator/    # 8 个 DLL + CustomTranslate
+│   └── core/XUnity.Common.dll
+├── config/AutoTranslatorConfig.ini       # 引擎配置模板
+├── translations/zh_cn/_README.txt        # 翻译格式说明
+├── scripts/extract_strings.py            # DLL 字符串提取工具
+├── references/                           # 参考文档（按需加载）
+│   ├── frameworks.md                     # 翻译框架识别
+│   ├── dll-analysis.md                   # 二进制字符串提取原理
+│   ├── font-solutions.md                 # 中文字体方案
+│   └── troubleshooting.md                # 常见问题排查
+├── setup.ps1 / setup.sh                  # Unity 一键部署脚本
 ├── README.md / README_CN.md
-├── skills/
-│   └── game-mod-translator-skill/
-│       ├── SKILL.md              # 主工作流
-│       ├── manifest.json         # 技能元数据
-│       ├── references/           # 渐进式参考文档
-│       │   ├── frameworks.md     # 翻译框架识别
-│       │   ├── dll-analysis.md   # 二进制字符串提取
-│       │   ├── font-solutions.md # 字体方案
-│       │   └── troubleshooting.md
-│       └── scripts/
-│           └── extract_strings.py # DLL 字符串提取工具
+└── SKILL.md                              # Skill 定义（在 .claude/skills/）
 ```
+
+## 核心原理
+
+```
+Unity:   Harmony Hook UI 渲染 → 拦截英文 → 查 .txt 字典 → 替换中文
+其他引擎: 直接读取/编辑文本资源文件（JSON/XML/PO/RPY）
+```
+
+**铁律：**
+- 不反编译 DLL 修改字符串（崩溃风险）
+- 不修改二进制文件
+- 优先利用游戏已有的翻译基础设施
+- 纯文本翻译文件 `原文=译文`
 
 ## 依赖
 
-- Python 3.8+（用于 `extract_strings.py`）
-- Claude Code 或兼容的 AI 编程助手
+- Python 3.8+（`extract_strings.py`）
+- BepInEx 5.x（仅 Unity 引擎，需用户预装）
+- Claude Code 或兼容 AI 编程助手
 
 ## 许可证
 
