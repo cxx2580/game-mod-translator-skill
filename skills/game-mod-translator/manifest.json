@@ -1,0 +1,12 @@
+{
+  "name": "game-mod-translator",
+  "version": "1.0.0",
+  "category": "game-modding",
+  "description": "Translate game mod UI text into any language without decompiling DLLs. Works with Unity/BepInEx, Unreal, and other mod frameworks. Extracts strings from binaries, discovers translation infrastructure, generates safe translation files.",
+  "descriptionZh": "在不反编译 DLL 的前提下将游戏模组 UI 文本翻译成任意语言。支持 Unity/BepInEx、Unreal 等模组框架。从二进制中提取字符串、发现翻译基础设施、生成安全的翻译文件。",
+  "license": "MIT",
+  "homepage": "https://github.com/xinshao/game-mod-translator",
+  "compat": ["claude-code", "claude-ai", "cursor", "codex-cli", "gemini-cli", "opencode"],
+  "tags": ["game-mod", "translation", "localization", "unity", "bepinex", "auto-translator", "modding", "chinese"],
+  "author": "xinshao"
+}
